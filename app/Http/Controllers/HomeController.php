@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Services\HomeService;
 use App\Http\Resources\BannerResource;
-use App\Http\Resources\CategoryResource;
 use App\Http\Resources\ProductResource;
+use App\Http\Resources\CategoryResource;
 
 class HomeController extends Controller
 {

@@ -17,6 +17,10 @@ use App\Interfaces\FavoriteInterface;
 use App\Repositories\FavoriteRepository;
 use App\Interfaces\OrderInterface;
 use App\Repositories\OrderRepository;
+use App\Models\ProductImage;
+use App\Observers\ProductImageObserver;
+use App\Interfaces\NotificationInterface;
+use App\Repositories\NotificationRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -31,6 +35,7 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(CategoryInterface::class, CategoryRepository::class);
         $this->app->bind(FavoriteInterface::class, FavoriteRepository::class);
         $this->app->bind(OrderInterface::class, OrderRepository::class);
+        $this->app->bind(NotificationInterface::class, NotificationRepository::class);
     }
 
     /**
@@ -39,5 +44,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Product::observe(ProductObserver::class);
+        ProductImage::observe(ProductImageObserver::class);
     }
 }

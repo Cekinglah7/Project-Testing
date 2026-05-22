@@ -34,19 +34,6 @@ class CartController extends Controller
         ], 200);
     }
 
-    public function reduceCart(ReduceCartRequest $request)
-    {
-        $message = $this->cartService->reduceFromCart(
-            Auth::id(), 
-            $request->product_id
-        );
-
-        return response()->json([
-            'success' => true,
-            'message' => $message
-        ], 200);
-    }
-
     public function addAllFavorites(FavoriteService $favoriteService)
     {
         $userId = Auth::id();
@@ -72,11 +59,8 @@ class CartController extends Controller
         ], 200);
     }
 
-    public function removeFromCart(Request $request)
+    public function removeFromCart(ReduceCartRequest $request)
     {
-        $request->validate([
-            'product_id' => 'required|exists:products,id',
-        ]);
 
         $message = $this->cartService->removeFromCart(
             Auth::id(), 

@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Product;
 use Illuminate\Support\Facades\Storage;
+use App\Models\ProductImage;
 
 class ProductObserver
 {
@@ -28,11 +29,7 @@ class ProductObserver
      */
     public function deleted(Product $product): void
     {
-        if ($product->images) {
-            foreach ($product->images as $image) {
-                Storage::disk('public')->delete('products/' . $image->image_url);
-            }
-        }
+        $product->images()->delete();
     }
 
     /**

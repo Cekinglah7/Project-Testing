@@ -83,7 +83,7 @@ class SocialAuthController extends Controller
         }
     }
 
-    public function logout(Request $request)
+    public function logoutApi(Request $request)
     {
         
         $request->user()->currentAccessToken()->delete();

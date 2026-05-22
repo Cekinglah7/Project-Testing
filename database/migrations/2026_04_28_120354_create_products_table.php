@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('name');
             $table->string('unit');
             $table->decimal('price', 8, 2);
-            $table->string('image');
             $table->string('description')->nullable();
             $table->string('nutrition_info')->nullable();
             $table->boolean('is_exclusive')->default(false); 

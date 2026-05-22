@@ -9,11 +9,13 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\NotificationController;
 
 Route::get('/auth/google/redirect', [SocialAuthController::class, 'redirectToGoogle']);
 Route::get('/auth/google/callback', [SocialAuthController::class, 'handleGoogleCallback']);
 
 Route::post('/login/google', [SocialAuthController::class, 'loginGoogleApi']);
+Route::post('/logout', [SocialAuthController::class, 'logoutApi']);
 Route::get('/login/google', [SocialAuthController::class, 'loginGoogleApi']);
 
 Route::get('/home', [HomeController::class, 'index']);
@@ -23,14 +25,15 @@ Route::get('/products/{id}', [ProductController::class, 'show']);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/cart/add', [CartController::class, 'addToCart']);
-    Route::post('/cart/reduce', [CartController::class, 'reduceCart']);
+    Route::post('/cart/reduce', [CartController::class, 'removeFromCart']);
     Route::post('/cart/add-all-favorites', [CartController::class, 'addAllFavorites']);
-    Route::post('/cart/remove', [CartController::class, 'removeFromCart']);
     Route::get('/orders', [OrderController::class, 'index']);
     Route::post('/checkout', [OrderController::class, 'checkout']);
     Route::delete('/products/{id}', [ProductController::class, 'destroy']);
     Route::get('/favorites', [FavoriteController::class, 'index']);
     Route::post('/favorites/toggle', [FavoriteController::class, 'toggle']);
+    Route::get('/notifications', [NotificationController::class, 'index']); 
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
 });
 
 Route::get('/user', function (Request $request) {

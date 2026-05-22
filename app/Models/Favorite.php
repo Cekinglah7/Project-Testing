@@ -12,4 +12,9 @@ class Favorite extends Model
     {
         return $this->belongsTo(Product::class)->with(['images']);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
