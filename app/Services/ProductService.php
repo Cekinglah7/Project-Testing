@@ -14,9 +14,9 @@ class ProductService
         $this->productRepository = $productRepository;
     }
 
-    public function getProducts($categoryId = null)
+    public function getProducts(array $filters = [])
     {
-        return $this->productRepository->getProductsByCategoryId($categoryId);
+        return $this->productRepository->getProducts($filters);
     }
 
     public function getDetail($id)
@@ -39,5 +39,19 @@ class ProductService
         }
 
         return $this->productRepository->deleteProduct($id);
+    }
+
+    public function createProduct(array $data)
+    {
+        return $this->productRepository->storeProduct($data);
+    }
+
+    public function updateProduct($id, array $data)
+    {
+        $product = $this->productRepository->updateProduct($id, $data);
+        if (!$product) {
+            throw new \Exception('Produk tidak ditemukan atau gagal diperbarui');
+        }
+        return $product;
     }
 }

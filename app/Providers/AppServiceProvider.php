@@ -21,6 +21,10 @@ use App\Models\ProductImage;
 use App\Observers\ProductImageObserver;
 use App\Interfaces\NotificationInterface;
 use App\Repositories\NotificationRepository;
+use App\Interfaces\BrandInterface;
+use App\Repositories\BrandRepository;
+use App\Interfaces\LocationInterface;
+use App\Repositories\LocationRepository;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -36,6 +40,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->bind(FavoriteInterface::class, FavoriteRepository::class);
         $this->app->bind(OrderInterface::class, OrderRepository::class);
         $this->app->bind(NotificationInterface::class, NotificationRepository::class);
+        $this->app->bind(BrandInterface::class, BrandRepository::class);
+        $this->app->bind(LocationInterface::class, LocationRepository::class);
     }
 
     /**

@@ -83,6 +83,41 @@ class SocialAuthController extends Controller
         }
     }
 
+    public function loginFacebookApi(Request $request)
+    {
+        try {
+            $facebookToken = $request->token;
+
+            $facebookUser = Socialite::driver('facebook')->stateless()->userFromToken($facebookToken);
+
+            $email = $facebookUser->getEmail() ?? $facebookUser->getId() . '@facebook.com';
+
+            $user = User::firstOrCreate(
+                ['email' => $email],
+                [
+                    'name' => $facebookUser->getName() ?? 'User Facebook',
+                    'password' => bcrypt(Str::random(16)),
+                ]
+            );
+
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            return response()->json([
+                'success'      => true,
+                'message'      => 'Login Facebook sukses',
+                'access_token' => $token,
+                'user'         => $user
+            ]);
+
+        } catch (\Exception $e) {
+            return response()->json([
+                'success'      => false,
+                'message'      => 'Gagal verifikasi token Facebook',
+                'detail_error' => $e->getMessage() 
+            ], 401);
+        }
+    }
+
     public function logoutApi(Request $request)
     {
         

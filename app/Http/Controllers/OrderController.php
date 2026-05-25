@@ -36,7 +36,7 @@ class OrderController extends Controller
             return response()->json([
                 'success' => true,
                 'message' => 'Pesanan berhasil dibuat!',
-                'data'    => $order
+                'data'    => new OrderResource($order)
             ], 200);
 
         } catch (\Exception $e) {

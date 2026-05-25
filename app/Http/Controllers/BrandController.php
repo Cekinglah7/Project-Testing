@@ -3,28 +3,26 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Services\CategoryService;
-use App\Http\Resources\CategoryResource;
 
-class CategoryController extends Controller
+class BrandController extends Controller
 {
-    protected $categoryService;
+    protected $brandService;
 
-    public function __construct(CategoryService $categoryService)
+    public function __construct(BrandService $brandService)
     {
-        $this->categoryService = $categoryService;
+        $this->brandService = $brandService;
     }
 
     public function index(Request $request)
     {
         try {
             $search = $request->query('search');
-            $categories = $this->categoryService->getCategories($search);
+            $brands = $this->brandService->getBrands($search);
 
             return response()->json([
                 'success' => true,
-                'message' => 'Berhasil mengambil data kategori',
-                'data'    => CategoryResource::collection($categories)
+                'message' => 'Berhasil mengambil data brand',
+                'data'    => BrandResource::collection($brands)
             ], 200);
 
         } catch (\Exception $e) {

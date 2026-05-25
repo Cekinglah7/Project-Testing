@@ -7,16 +7,20 @@ use App\Interfaces\ProductInterface;
 
 class ProductRepository implements ProductInterface
 {
-    public function getProductsByCategoryId($categoryId = null)
+    public function getProducts(array $filters = [])
     {
         $query = Product::with(['images']);
         
-        if ($categoryId) {
-            $query->where('category_id', $categoryId);
+        if (isset($filters['categories']) && $filters['categories']) {
+            $query->where('category_id', $filters['categories']); 
         }
 
-        if ($search) {
-            $query->where('name', 'like', '%' . $search . '%');
+        if (isset($filters['brands']) && $filters['brands']) {
+            $query->whereIn('brand_id', (array) $filters['brands']);
+        }
+
+        if (isset($filters['search']) && $filters['search']) {
+            $query->where('name', 'like', '%' . $filters['search'] . '%');
         }
 
         return $query->paginate(10);
@@ -44,5 +48,20 @@ class ProductRepository implements ProductInterface
     public function deleteCartItem($cartItem)
     {
         return $cartItem->delete();
+    }
+
+    public function storeProduct(array $data)
+    {
+        return Product::create($data);
+    }
+
+    public function updateProduct($id, array $data)
+    {
+        $product = Product::find($id);
+        if ($product) {
+            $product->update($data);
+            return $product;
+        }
+        return null;
     }
 }
