@@ -35,8 +35,12 @@ class OrderController extends Controller
 
             return response()->json([
                 'success' => true,
-                'message' => 'Pesanan berhasil dibuat!',
-                'data'    => new OrderResource($order)
+                'message' => 'Pesanan berhasil dibuat, silakan lakukan pembayaran!',
+                'data'    => [
+                    'order'        => new OrderResource($order),
+                    // 'snap_token'   => $order->snap_token,
+                    // 'redirect_url' => $order->redirect_url
+                ]
             ], 200);
 
         } catch (\Exception $e) {
